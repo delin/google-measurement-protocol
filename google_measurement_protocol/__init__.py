@@ -5,14 +5,14 @@ import requests
 TRACKING_URI = 'https://ssl.google-analytics.com/collect'
 
 
-def _request(data, extra_headers):
-    return requests.post(TRACKING_URI, data=data, headers=extra_headers, timeout=5.0)
+def _request(data, extra_headers, request_timeout):
+    return requests.post(TRACKING_URI, data=data, headers=extra_headers, timeout=request_timeout)
 
 
 def report(tracking_id, client_id, requestable, extra_info=None,
-           extra_headers=None):
+           extra_headers=None, request_timeout=3):
     """Actually report measurements to Google Analytics."""
-    return [_request(data, extra_headers)
+    return [_request(data, extra_headers, request_timeout)
             for data, extra_headers in payloads(
             tracking_id, client_id, requestable, extra_info, extra_headers)]
 
